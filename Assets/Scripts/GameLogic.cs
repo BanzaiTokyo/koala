@@ -208,6 +208,7 @@ public class GameLogic : MonoBehaviour {
 		globalGridY = 0;
 		fire.Stop ();
 		lastSmoke.Stop ();
+		thumb.button.SetActive (!realRestart);
 		if (DEBUGSTEER)
 			return;
 		if (bg1)
@@ -222,7 +223,6 @@ public class GameLogic : MonoBehaviour {
 			spider.ShowSpider ();
 			bird.Fly ();
 		}
-		thumb.button.SetActive (!realRestart);
 	}
 
 	void gameOver() {
@@ -377,6 +377,15 @@ public class GameLogic : MonoBehaviour {
 			gameOver ();
 		}
 
+		pos = gameObject.transform.position;
+		if (pos.x < leftMargin) {
+			pos.x += rightMargin*2.2f;
+		}
+		else if (pos.x > rightMargin) {
+			pos.x -= rightMargin*2.2f;
+		}
+		gameObject.transform.position = pos;
+
 		if (DEBUGSTEER)
 			return;
 
@@ -408,14 +417,6 @@ public class GameLogic : MonoBehaviour {
 				Debug.Log(abird.transform.position);
 			}
 		}*/
-		pos = gameObject.transform.position;
-		if (pos.x < leftMargin) {
-			pos.x += rightMargin*2.2f;
-		}
-		else if (pos.x > rightMargin) {
-			pos.x -= rightMargin*2.2f;
-		}
-		gameObject.transform.position = pos;
 	}
 
 	void OnBecameInvisible() {

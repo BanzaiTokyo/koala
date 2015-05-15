@@ -4,7 +4,7 @@ using System.Collections;
 public class ThumbController : MonoBehaviour {
 
 	[HideInInspector] public RectTransform r;
-	public float CONTROLLER_RETURN_TIME;
+	public float CONTROLLER_RETURN_SPEED;
 	public RectTransform leftBars;
 	public RectTransform rightBars;
 	public GameObject button;
@@ -24,7 +24,7 @@ public class ThumbController : MonoBehaviour {
 		if (!Input.GetMouseButton (0) && (Input.touchCount == 0)) { //no touch, return controller to center
 			Vector3 pos = r.position;
 			float leftOrRight = Screen.width/2 - pos.x;
-			float dx = CONTROLLER_RETURN_TIME*Time.deltaTime;
+			float dx = CONTROLLER_RETURN_SPEED*Time.deltaTime;
 			if (Mathf.Abs(leftOrRight) > dx) {
 				dx *= leftOrRight;
 				r.Translate(new Vector3(dx, 0, 0));
