@@ -13,11 +13,14 @@ public class BirdAnimator : MonoBehaviour {
 	private bool flying = false;
 	private float speed;
 	private float _start_time = -1f;
+	private float oldZ;
 
 	// Use this for initialization
 	void Start () {
+		GetComponent<Renderer>().castShadows = true;
 		spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
 		sprites = Resources.LoadAll<Sprite>("Sprites/bird");
+		oldZ = transform.localPosition.z;
 	}
 
 	public void Fly() {
@@ -25,6 +28,7 @@ public class BirdAnimator : MonoBehaviour {
 			Vector3 pos = transform.localPosition;
 			Vector3 scale = transform.localScale;
 			pos.y = Random.Range (-Camera.main.orthographicSize, 0f);
+			pos.z = oldZ;
 			speed = Random.Range (MINBIRDSPEED, MAXBIRDSPEED);
 			float halfSize = spriteRenderer.bounds.size.x / 2f;
 			if (reverse) {
@@ -58,5 +62,9 @@ public class BirdAnimator : MonoBehaviour {
 	void OnBecameInvisible() {
 		flying = false;
 		_start_time = Time.time;
+		Vector3 pos = transform.localPosition;
+		oldZ = pos.z;
+		pos.z = Camera.main.farClipPlane + 1f;
+		transform.localPosition = pos;
 	}
 }

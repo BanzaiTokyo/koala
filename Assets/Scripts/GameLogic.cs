@@ -49,7 +49,7 @@ public class GameLogic : MonoBehaviour {
 	private int BACKGROUNDLAYER = 0;
 	private int OBSTACLESLAYER = -1;
 	private int POWERUPSLAYER = -2;
-	private int BODYLAYER = -4;
+	private int BODYLAYER = 0;
 	private int DAMPERSLAYER = -6;
 	private int SPIDERLAYER = -7;
 	private int BIRDLAYER = -8;
@@ -99,19 +99,18 @@ public class GameLogic : MonoBehaviour {
 
 	GameObject generateBackgroundWithObstacles(bool withObstacles) {
 		GameObject result = new GameObject();
-		Vector3 pos = result.transform.position;
-		pos.z = BACKGROUNDLAYER;
-		result.transform.position = pos;
 		float x, y = 0,
-		kGrid = SPOTGRIDSIZE * scale;
-		int obstacleIdx = (int)(Camera.main.orthographicSize / kGrid) + 1;
+		kGrid = SPOTGRIDSIZE * scale,
+		screenWidth = rightMargin-leftMargin;
+		Debug.Log (leftMargin + " " + rightMargin + " "+kGrid);
+		int obstacleIdx = (int)(screenWidth / kGrid) + 1;
 		obstacleIdx = (int)(Random.value * obstacleIdx);
 		while (y < bgSize) {
-			x = oddRow ? 0 : kGrid/2;
+			x = oddRow ? 0f : kGrid/2f;
 			oddRow = !oddRow;
 			int iX = 0;
 			bool obstacleAdded = false;
-			while (x < Camera.main.orthographicSize) {
+			while (x < screenWidth) {
 				string spotName = Mathf.RoundToInt(Random.value*44 + 1).ToString("D2")+"@2x";
 				GameObject spot = this.AddSprite("Sprites/spots/"+spotName);
 
@@ -131,7 +130,7 @@ public class GameLogic : MonoBehaviour {
 				iX++;
 			}
 			globalGridY++;
-			y = y + kGrid/2;
+			y = y + kGrid/2f;
 		}
 		return result;
 	}
@@ -218,7 +217,7 @@ public class GameLogic : MonoBehaviour {
 		bg1 = generateBackgroundWithObstacles (realRestart);
 		bg1.transform.position = new Vector3(leftMargin, -Camera.main.orthographicSize/2f, BACKGROUNDLAYER);
 		bg2 = generateBackgroundWithObstacles (realRestart);
-		bg2.transform.position = new Vector3(leftMargin, bg1.transform.position.y+bgSize*scale, BACKGROUNDLAYER);
+		bg2.transform.position = new Vector3(leftMargin, bg1.transform.position.y+bgSize, BACKGROUNDLAYER);
 		if (realRestart) {
 			spider.ShowSpider ();
 			bird.Fly ();
@@ -244,13 +243,16 @@ public class GameLogic : MonoBehaviour {
 		isGameOver = true;
 		scale = Screen.width / 320f;
 		thumbMargin = THUMBMARGIN * scale;
-		bgSize = SPOTGRIDSIZE * 5.5f * scale;
+		bgSize = SPOTGRIDSIZE * Camera.main.orthographicSize*2f * scale;
 		midScreen = new Vector2 (Screen.width / 2, Screen.height / 2);
 		Camera.main.transform.position = new Vector3 (0f, 0f, Camera.main.transform.position.z);
 		leftMargin = Camera.main.ScreenToWorldPoint (Vector2.zero).x;
 		rightMargin = Camera.main.ScreenToWorldPoint (new Vector2(Screen.width, 0)).x;
+		RectTransform r = fuelBar.GetComponent<RectTransform> ();
+		r.sizeDelta = new Vector2(Screen.width, r.sizeDelta.y);
 		Debug.Log ("start "+scale + " " + bgSize+" "+Camera.main.aspect);
 		rigidBody = gameObject.GetComponent<Rigidbody2D> ();
+		GetComponent<Renderer>().castShadows = true;
 		restartGame (false);
 	}
 	
@@ -314,7 +316,7 @@ public class GameLogic : MonoBehaviour {
 		}
 
 		if (!DEBUGSTEER) {
-			if (rigidBody.gravityScale > 0f && fuel > 0f) {
+			if (rigidBody.gravityScale > 0f && fuel > 0f && accelerating) {
 				float df = 1f;
 				if (rigidBody.velocity.y > 0.2f * maxVelocity [level])
 					df = 1f - (rigidBody.velocity.y - 0.1f * maxVelocity [level]) / maxVelocity [level] * 0.5f;
@@ -389,7 +391,7 @@ public class GameLogic : MonoBehaviour {
 		if (DEBUGSTEER)
 			return;
 
-		float minBgY = Camera.main.transform.position.y - Camera.main.orthographicSize / 2 - bgSize;
+		float minBgY = Camera.main.transform.position.y - Camera.main.orthographicSize / 2f - bgSize;
 		if (bg1.transform.position.y < minBgY) {
 			pos = bg1.transform.position;
 			pos.y = bg2.transform.position.y + bgSize;

@@ -14,6 +14,7 @@ public class SpiderAnimator : Actor {
 
 	// Use this for initialization
 	void Start () {
+		GetComponent<Renderer>().castShadows = true;
 		spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
 		sprites = Resources.LoadAll<Sprite>("Sprites/spider");
 	}
