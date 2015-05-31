@@ -7,7 +7,6 @@ public class BeeAnimator : MonoBehaviour {
 	public bool reverse;
 	// Use this for initialization
 	void Start () {
-		GetComponent<Renderer>().material = Resources.Load("spriteShadow", typeof(Material)) as Material;
 		GetComponent<Renderer>().castShadows = true;
 		transform.localPosition = new Vector2 (radius, 0f);
 		if (reverse) {
