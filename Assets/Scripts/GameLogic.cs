@@ -124,7 +124,7 @@ public class GameLogic : MonoBehaviour {
 					obstacleAdded = true;
 					GameObject o = this.generateObstacle();
 					o.transform.parent = result.transform;
-					o.transform.localPosition = new Vector3(x, y, OBSTACLESLAYER);
+					o.transform.localPosition = new Vector3(x, y, o.transform.localPosition.z);// OBSTACLESLAYER);
 				}
 				x = x + kGrid;
 				iX++;
