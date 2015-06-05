@@ -253,6 +253,11 @@ public class GameLogic : MonoBehaviour {
 		Debug.Log ("start "+scale + " " + bgSize+" "+Camera.main.aspect);
 		rigidBody = gameObject.GetComponent<Rigidbody2D> ();
 		GetComponent<Renderer>().castShadows = true;
+		Vector3 pos = spider.transform.localPosition;
+		pos.y = Camera.main.orthographicSize + spider.GetComponent<SpriteRenderer> ().bounds.size.y * 2f;
+		spider.transform.localPosition = pos;
+		bird.transform.localPosition = pos;
+		GameObject.Find ("Background").transform.localScale = new Vector3(Camera.main.orthographicSize/4f * Camera.main.aspect, 1f, Camera.main.orthographicSize/4f);
 		restartGame (false);
 	}
 	
