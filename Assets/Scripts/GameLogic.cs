@@ -46,11 +46,11 @@ public class GameLogic : MonoBehaviour {
 	private float MAXBODYROLL = 150f;
 	private float MAXEARANGLE = 20f;
 
-	private int BACKGROUNDLAYER = 0;
-	private int OBSTACLESLAYER = -1;
+	private float BACKGROUNDLAYER = 1.9f;
+	private float OBSTACLESLAYER = -0.001f;
+	private float DAMPERSLAYER = -2f;
 	private int POWERUPSLAYER = -2;
 	private int BODYLAYER = 0;
-	private int DAMPERSLAYER = -6;
 	private int SPIDERLAYER = -7;
 	private int BIRDLAYER = -8;
 	private int HUDLAYER = -9;
@@ -99,7 +99,7 @@ public class GameLogic : MonoBehaviour {
 
 	GameObject generateBackgroundWithObstacles(bool withObstacles) {
 		GameObject result = new GameObject();
-		float x, y = 0,
+		float x, y = 0f,
 		kGrid = SPOTGRIDSIZE * scale,
 		screenWidth = rightMargin-leftMargin;
 		Debug.Log (leftMargin + " " + rightMargin + " "+kGrid);
@@ -114,7 +114,7 @@ public class GameLogic : MonoBehaviour {
 				string spotName = Mathf.RoundToInt(Random.value*44 + 1).ToString("D2")+"@2x";
 				GameObject spot = this.AddSprite("Sprites/spots/"+spotName);
 
-				spot.transform.position = new Vector3(x, y, BACKGROUNDLAYER);
+				spot.transform.position = new Vector3(x, y, 0f);
 				SpriteRenderer r = spot.GetComponent<SpriteRenderer>();
 				Color c = r.color;
 				c.a = 0.4f;
@@ -122,9 +122,16 @@ public class GameLogic : MonoBehaviour {
 				spot.transform.parent = result.transform;
 				if (withObstacles && (globalGridY % obstacleDistance[level] == 0) && !obstacleAdded && (iX == obstacleIdx)) {
 					obstacleAdded = true;
-					GameObject o = this.generateObstacle();
+					GameObject o;
+					bool isDamper = Random.value <= damperAppearanceProbability[level];
+					if (isDamper) {
+						o = this.generateDamper();
+					}
+					else {
+						o = this.generateObstacle();
+					}
 					o.transform.parent = result.transform;
-					o.transform.localPosition = new Vector3(x, y, o.transform.localPosition.z);// OBSTACLESLAYER);
+					o.transform.localPosition = new Vector3(x, y, isDamper ? DAMPERSLAYER : OBSTACLESLAYER);
 				}
 				x = x + kGrid;
 				iX++;
@@ -136,25 +143,19 @@ public class GameLogic : MonoBehaviour {
 	}
 
 	GameObject generateObstacle() { 
-		if (Random.value <= damperAppearanceProbability[level]) {
-			GameObject damper = this.generateDamper();
-			return damper;
-		}
-		else {
-			int treeIdx = (int)Random.value*trees.Length;
-			GameObject obstacle = Instantiate(trees[treeIdx]);
-			this.generatePowerupAtPalm(obstacle);
+		int treeIdx = (int)(Random.value*trees.Length);
+		GameObject obstacle = Instantiate(trees[treeIdx]);
+		this.generatePowerupAtPalm(obstacle.GetComponent<Tree>());
 
-			if (Random.value <= BEEPROBABILITY) {
-				BeeAnimator abee = Instantiate<BeeAnimator>(bee);
-				abee.reverse = Random.value > 0.5f;
-				Vector3 v = abee.transform.position;
-				v.z = POWERUPSLAYER;
-				abee.transform.parent = obstacle.transform;
-				abee.transform.localPosition = v;
-			}
-			return obstacle;
+		if (Random.value <= BEEPROBABILITY) {
+			BeeAnimator abee = Instantiate<BeeAnimator>(bee);
+			abee.reverse = Random.value > 0.5f;
+			Vector3 v = abee.transform.position;
+			v.z = POWERUPSLAYER;
+			abee.transform.parent = obstacle.transform;
+			abee.transform.localPosition = v;
 		}
+		return obstacle;
 	}
 
 	GameObject generateDamper() {
@@ -163,10 +164,14 @@ public class GameLogic : MonoBehaviour {
 		return damper;
 	}
 
-	void generatePowerupAtPalm(GameObject obstacle) {
+	void generatePowerupAtPalm(Tree obstacle) {
+		foreach (GameObject placeholder in obstacle.placeholders)
+			foreach (Transform child in placeholder.transform)
+				Destroy (child.gameObject);
+		int placeholderIdx = (int)(Random.value * obstacle.placeholders.Length);
 		GameObject fuel = Instantiate (powerup);
-		fuel.transform.parent = obstacle.transform;
-		fuel.transform.localPosition = new Vector3 (1.206f, 0.33f, 0);
+		fuel.transform.parent = obstacle.placeholders[placeholderIdx].transform;
+		fuel.transform.localPosition = Vector3.zero;
 	}
 
 	void setScore(float _score) {

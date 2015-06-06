@@ -99,7 +99,7 @@ GameObject:
   - 64: {fileID: 69530120}
   - 23: {fileID: 69530119}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2876,7 +2876,8 @@ MonoBehaviour:
   bee: {fileID: 11406310, guid: 55b09d18a9da741039073258efb816dc, type: 2}
   spider: {fileID: 1566661411}
   trees:
-  - {fileID: 174678, guid: 7f5d28f8ddf3f49899370459e93c733a, type: 2}
+  - {fileID: 194828, guid: 4c2b9c574a5cc464a9a1bf4c3e8f8778, type: 2}
+  - {fileID: 152016, guid: feaa3f1f8f3aa4047b9b8c10bac54901, type: 2}
   clouds:
   - {fileID: 105362, guid: 38a9a83f88d8543cf810eadb2d33d62a, type: 2}
   bird: {fileID: 1961086170}
