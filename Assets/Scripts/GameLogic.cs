@@ -46,9 +46,9 @@ public class GameLogic : MonoBehaviour {
 	private float MAXBODYROLL = 150f;
 	private float MAXEARANGLE = 20f;
 
-	private float BACKGROUNDLAYER = 1.9f;
+	private float BACKGROUNDLAYER = 0;
 	private float OBSTACLESLAYER = -0.001f;
-	private float DAMPERSLAYER = -2f;
+	private float DAMPERSLAYER = -1f;
 	private int POWERUPSLAYER = -2;
 	private int BODYLAYER = 0;
 	private int SPIDERLAYER = -7;
@@ -102,7 +102,6 @@ public class GameLogic : MonoBehaviour {
 		float x, y = 0f,
 		kGrid = SPOTGRIDSIZE * scale,
 		screenWidth = rightMargin-leftMargin;
-		Debug.Log (leftMargin + " " + rightMargin + " "+kGrid);
 		int obstacleIdx = (int)(screenWidth / kGrid) + 1;
 		obstacleIdx = (int)(Random.value * obstacleIdx);
 		while (y < bgSize) {
@@ -115,6 +114,7 @@ public class GameLogic : MonoBehaviour {
 				GameObject spot = this.AddSprite("Sprites/spots/"+spotName);
 
 				spot.transform.position = new Vector3(x, y, 0f);
+				spot.transform.localScale = new Vector3(3f, 3f, 3f);
 				SpriteRenderer r = spot.GetComponent<SpriteRenderer>();
 				Color c = r.color;
 				c.a = 0.4f;
@@ -445,7 +445,7 @@ public class GameLogic : MonoBehaviour {
 		if (other.transform.gameObject.layer == LayerMask.NameToLayer ("Damper")) {
 			float l1 = (new Vector2(transform.position.x-other.transform.position.x, transform.position.y - other.transform.position.y)).magnitude,
 			l2 = other.bounds.size.magnitude/2f,
-			x = other.gameObject.GetComponent<Damper>().maxResistance * (1f - l1/l2);
+			x = other.gameObject.GetComponent<Damper>().maxResistance;// * (1f - l1/l2);
 			rigidBody.drag = x;
 		}
 	}
