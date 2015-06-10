@@ -16,10 +16,13 @@ public class BeeAnimator : MonoBehaviour {
 		sprites = Resources.LoadAll<Sprite>("Sprites/bee");
 
 		GetComponent<Renderer>().castShadows = true;
-		transform.localPosition = new Vector2 (radius, 0f);
+		Vector3 v = transform.localPosition;
+		v.x = radius;
+		transform.localPosition = v;
 		if (reverse) {
-			Vector3 scale = transform.localScale;
-			transform.localScale = new Vector3 (-scale.x, scale.y, scale.z);
+			v = transform.localScale;
+			v.x = -v.x;
+			transform.localScale = v;
 		}
 	}
 	

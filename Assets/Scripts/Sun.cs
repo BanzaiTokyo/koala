@@ -12,12 +12,12 @@ public class Sun : MonoBehaviour {
 	void Start () {
 		clockwise = true;
 		currentWaypointIdx = 0;
-		shineTo = new GameObject ();
-		shineTo.transform.parent = waypoints.transform;
-		shineTo.transform.localPosition = waypoints.GetChild (0).localPosition;
 		foreach (Transform wp in waypoints.transform) {
 			wp.gameObject.GetComponent<SpriteRenderer>().enabled = false;
 		}
+		shineTo = new GameObject ();
+		shineTo.transform.parent = waypoints.transform;
+		shineTo.transform.localPosition = waypoints.GetChild (0).localPosition;
 	}
 
 	void Update() {

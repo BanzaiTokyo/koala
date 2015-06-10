@@ -46,14 +46,7 @@ public class GameLogic : MonoBehaviour {
 	private float MAXBODYROLL = 150f;
 	private float MAXEARANGLE = 20f;
 
-	private float BACKGROUNDLAYER = 0;
-	private float OBSTACLESLAYER = -0.001f;
-	private float DAMPERSLAYER = -1f;
-	private int POWERUPSLAYER = -2;
-	private int BODYLAYER = 0;
-	private int SPIDERLAYER = -7;
-	private int BIRDLAYER = -8;
-	private int HUDLAYER = -9;
+	private float BACKGROUNDLAYER = 0.09f;
 
 	private float scale = 1f;
 	Vector2 midScreen;
@@ -99,7 +92,7 @@ public class GameLogic : MonoBehaviour {
 
 	GameObject generateBackgroundWithObstacles(bool withObstacles) {
 		GameObject result = new GameObject();
-		float x, y = 0f,
+		float x, y = 0f, z,
 		kGrid = SPOTGRIDSIZE * scale,
 		screenWidth = rightMargin-leftMargin;
 		int obstacleIdx = (int)(screenWidth / kGrid) + 1;
@@ -128,10 +121,11 @@ public class GameLogic : MonoBehaviour {
 						o = this.generateDamper();
 					}
 					else {
-						o = this.generateObstacle();
+						o = this.generateTree();
 					}
+					z = o.transform.localPosition.z;
 					o.transform.parent = result.transform;
-					o.transform.localPosition = new Vector3(x, y, isDamper ? DAMPERSLAYER : OBSTACLESLAYER);
+					o.transform.localPosition = new Vector3(x, y, z);
 				}
 				x = x + kGrid;
 				iX++;
@@ -142,7 +136,7 @@ public class GameLogic : MonoBehaviour {
 		return result;
 	}
 
-	GameObject generateObstacle() { 
+	GameObject generateTree() { 
 		int treeIdx = (int)(Random.value*trees.Length);
 		GameObject obstacle = Instantiate(trees[treeIdx]);
 		this.generatePowerupAtPalm(obstacle.GetComponent<Tree>());
@@ -150,8 +144,7 @@ public class GameLogic : MonoBehaviour {
 		if (Random.value <= BEEPROBABILITY) {
 			BeeAnimator abee = Instantiate<BeeAnimator>(bee);
 			abee.reverse = Random.value > 0.5f;
-			Vector3 v = abee.transform.position;
-			v.z = POWERUPSLAYER;
+			Vector3 v = abee.transform.localPosition;
 			abee.transform.parent = obstacle.transform;
 			abee.transform.localPosition = v;
 		}
@@ -208,7 +201,7 @@ public class GameLogic : MonoBehaviour {
 		rigidBody.velocity = Vector2.zero;
 		gameObject.layer = LayerMask.NameToLayer ("Body");
 		Camera.main.transform.position = new Vector3 (0f, 0f, Camera.main.transform.position.z);
-		transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, BODYLAYER);
+		transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0f);
 		globalGridY = 0;
 		fire.Stop ();
 		lastSmoke.Stop ();

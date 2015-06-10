@@ -25,8 +25,6 @@ public class SleepFor : Action {
 
 	// Update
 	public override void Update () {
-
-		Debug.Log (parent.isActiveAndEnabled);
 		// Not completed
 		if(!completed)
 		{
