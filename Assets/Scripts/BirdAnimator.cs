@@ -17,7 +17,7 @@ public class BirdAnimator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GetComponent<Renderer>().castShadows = true;
+		GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
 		spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
 		sprites = Resources.LoadAll<Sprite>("Sprites/bird");
 		oldZ = transform.localPosition.z;

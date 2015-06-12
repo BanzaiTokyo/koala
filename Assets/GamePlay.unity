@@ -2973,6 +2973,8 @@ MonoBehaviour:
   rightEar: {fileID: 915255591}
   fire: {fileID: 233413311}
   lastSmoke: {fileID: 657061844}
+  background: {fileID: 69530119}
+  shakeVelocity: 9
   levelTargets: 64000000c80000002c01000000000000
   BEEPROBABILITY: .300000012
   ACCELERATION_UP: 20
@@ -3236,6 +3238,7 @@ GameObject:
   - 92: {fileID: 1478667389}
   - 124: {fileID: 1478667388}
   - 81: {fileID: 1478667387}
+  - 114: {fileID: 1478667392}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3313,6 +3316,17 @@ Transform:
   - {fileID: 190679426}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &1478667392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1478667386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa77930206f14e6bac04a03c5bab9b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1566661409
 GameObject:
   m_ObjectHideFlags: 0

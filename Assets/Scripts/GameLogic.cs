@@ -20,6 +20,8 @@ public class GameLogic : MonoBehaviour {
 	public GameObject rightEar;
 	public ParticleSystem fire;
 	public ParticleSystem lastSmoke;
+	public MeshRenderer background;
+	public float shakeVelocity;
 
 
 	private int NUMLEVELS = 4;
@@ -216,6 +218,7 @@ public class GameLogic : MonoBehaviour {
 		bg1.transform.position = new Vector3(leftMargin, -Camera.main.orthographicSize/2f, BACKGROUNDLAYER);
 		bg2 = generateBackgroundWithObstacles (realRestart);
 		bg2.transform.position = new Vector3(leftMargin, bg1.transform.position.y+bgSize, BACKGROUNDLAYER);
+		background.material.SetTextureOffset ("_MainTex", Vector2.zero);
 		if (realRestart) {
 			spider.ShowSpider ();
 			bird.Fly ();
@@ -250,7 +253,7 @@ public class GameLogic : MonoBehaviour {
 		r.sizeDelta = new Vector2(Screen.width, r.sizeDelta.y);
 		Debug.Log ("start "+scale + " " + bgSize+" "+Camera.main.aspect);
 		rigidBody = gameObject.GetComponent<Rigidbody2D> ();
-		GetComponent<Renderer>().castShadows = true;
+		GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
 		Vector3 pos = spider.transform.localPosition;
 		pos.y = Camera.main.orthographicSize + spider.GetComponent<SpriteRenderer> ().bounds.size.y * 2f;
 		spider.transform.localPosition = pos;
@@ -373,8 +376,10 @@ public class GameLogic : MonoBehaviour {
 		/*_fire.particlePosition = [self convertPoint:CGPointMake(0, -47) fromNode:_body];
 		_lastSmoke.particlePosition = _fire.particlePosition;*/
 
-		if (gameObject.transform.position.y > Camera.main.transform.position.y)
+		if (gameObject.transform.position.y > Camera.main.transform.position.y) {
 			Camera.main.transform.position = new Vector3 (Camera.main.transform.position.x, gameObject.transform.position.y, Camera.main.transform.position.z);
+			background.material.SetTextureOffset("_MainTex", new Vector2(0f, -gameObject.transform.position.y/Camera.main.orthographicSize/2.5f));
+		}
 
 		if (gameObject.transform.position.y < Camera.main.transform.position.y - Camera.main.orthographicSize - GetComponent<SpriteRenderer>().bounds.size.y*2f  
 		    && (fuel <= 0f || !accelerating)) {
@@ -410,18 +415,6 @@ public class GameLogic : MonoBehaviour {
 			bg2.transform.position = pos;
 		}
 		setScore (transform.position.y);
-		//bird test
-		/*
-		if (false && Input.GetButtonDown ("Fire1")) {
-				BirdAnimator abird = Instantiate<BirdAnimator>(bird);
-				abird.reverse = Random.value > 0.5f;
-				abird.speed = 10f;
-				pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				pos.z = 0f;
-				abird.transform.position = pos;
-				Debug.Log(abird.transform.position);
-			}
-		}*/
 	}
 
 	void OnBecameInvisible() {
@@ -436,8 +429,8 @@ public class GameLogic : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D other) {
 		if (other.transform.gameObject.layer == LayerMask.NameToLayer ("Damper")) {
-			float l1 = (new Vector2(transform.position.x-other.transform.position.x, transform.position.y - other.transform.position.y)).magnitude,
-			l2 = other.bounds.size.magnitude/2f,
+			float /*l1 = (new Vector2(transform.position.x-other.transform.position.x, transform.position.y - other.transform.position.y)).magnitude,
+			l2 = other.bounds.size.magnitude/2f,*/
 			x = other.gameObject.GetComponent<Damper>().maxResistance;// * (1f - l1/l2);
 			rigidBody.drag = x;
 		}
@@ -446,6 +439,14 @@ public class GameLogic : MonoBehaviour {
 	void OnTriggerExit2D(Collider2D other) {
 		if (other.transform.gameObject.layer == LayerMask.NameToLayer ("Damper")) {
 			rigidBody.drag = 0f;
+		}
+	}
+
+	void OnCollisionEnter2D(Collision2D other) {
+		Debug.Log (rigidBody.velocity.y + " " + shakeVelocity);
+		if ((other.gameObject.tag == "Tree") && (rigidBody.velocity.y < -shakeVelocity)) {
+			Debug.Log ("Shake!");
+			Camera.main.GetComponent<CameraScript>().Shake();
 		}
 	}
 }

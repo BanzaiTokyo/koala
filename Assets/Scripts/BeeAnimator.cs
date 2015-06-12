@@ -11,11 +11,11 @@ public class BeeAnimator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GetComponent<Renderer>().castShadows = true;
+		GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
 		spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
 		sprites = Resources.LoadAll<Sprite>("Sprites/bee");
 
-		GetComponent<Renderer>().castShadows = true;
+		GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
 		Vector3 v = transform.localPosition;
 		v.x = radius;
 		transform.localPosition = v;
