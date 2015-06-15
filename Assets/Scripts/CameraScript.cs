@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraScript : MonoBehaviour {
 	Vector3 beforeShakePos;
-	Quaternion beforeShakeRot;
+	//Quaternion beforeShakeRot;
 	float shakeDecay, shakeIntensity;
 	bool shaking = false;
 	Vector3 shakeDir = Vector3.zero, prevShakeDir = Vector3.zero;
@@ -40,7 +40,7 @@ public class CameraScript : MonoBehaviour {
 
 	public void Shake() {
 		beforeShakePos = transform.position;
-		beforeShakeRot = transform.rotation;
+		//beforeShakeRot = transform.rotation;
 		shakeIntensity = 0.3f;
 		shakeDecay = 0.02f;
 		shaking = true;
