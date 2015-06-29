@@ -27,7 +27,8 @@ public class GameLogic : MonoBehaviour {
 	private int NUMLEVELS = 4;
 	public int[] levelTargets = new int[]{100, 200, 300, 0};
 	
-	private float SPOTGRIDSIZE = 2.10f;
+	[HideInInspector]
+	public Vector2 SPOTGRIDSIZE = new Vector2(2.10f, 2.1f);
 	private int[] obstacleDistance = new int[]{7, 7, 5, 4}; //multiplies of SPOTGRIDSIZE
 	private float[] damperAppearanceProbability = new float[]{0.0f, 0.3f, 0.75f, 0.75f};
 
@@ -48,9 +49,9 @@ public class GameLogic : MonoBehaviour {
 	private float MAXBODYROLL = 150f;
 	private float MAXEARANGLE = 20f;
 
-	private float BACKGROUNDLAYER = 0.09f;
+	[HideInInspector] public float BACKGROUNDLAYER = 0.09f;
 
-	private float scale = 1f;
+	[HideInInspector] public float scale = 1f;
 	Vector2 midScreen;
 	bool accelerating;
 	float damperSize;
@@ -62,12 +63,12 @@ public class GameLogic : MonoBehaviour {
 	float massScale;
 	float fuel;
 	float prevTime;
-	float bgSize;
+	[HideInInspector] public float bgSize;
 	int globalGridY;
 	int level;
 	static bool oddRow;
 	Rigidbody2D rigidBody;
-	float leftMargin, rightMargin;
+	[HideInInspector] public float leftMargin, rightMargin;
 
 	private bool isTouchDevice = false;
 	void Awake() {
@@ -92,15 +93,14 @@ public class GameLogic : MonoBehaviour {
 		return sprGameObj;
 	}
 
-	GameObject generateBackgroundWithObstacles(bool withObstacles) {
+	public GameObject generateBackgroundWithObstacles(bool withObstacles) {
 		GameObject result = new GameObject();
 		float x, y = 0f, z,
-		kGrid = SPOTGRIDSIZE * scale,
 		screenWidth = rightMargin-leftMargin;
-		int obstacleIdx = (int)(screenWidth / kGrid) + 1;
+		int obstacleIdx = (int)(screenWidth / SPOTGRIDSIZE.x) + 1;
 		obstacleIdx = (int)(Random.value * obstacleIdx);
 		while (y < bgSize) {
-			x = oddRow ? 0f : kGrid/2f;
+			x = oddRow ? 0f : SPOTGRIDSIZE.x/2f;
 			oddRow = !oddRow;
 			int iX = 0;
 			bool obstacleAdded = false;
@@ -129,11 +129,11 @@ public class GameLogic : MonoBehaviour {
 					o.transform.parent = result.transform;
 					o.transform.localPosition = new Vector3(x, y, z);
 				}
-				x = x + kGrid;
+				x = x + SPOTGRIDSIZE.x;
 				iX++;
 			}
 			globalGridY++;
-			y = y + kGrid/2f;
+			y = y + SPOTGRIDSIZE.y;
 		}
 		return result;
 	}
@@ -172,7 +172,8 @@ public class GameLogic : MonoBehaviour {
 	void setScore(float _score) {
 		if (_score > score || Mathf.Approximately(_score, 0f)) {
 			score = _score;
-			scoreLabel.text = "Score: " + score;
+			if (scoreLabel)
+				scoreLabel.text = "Score: " + score;
 			if (level < NUMLEVELS - 1 && score > levelTargets [level]) {
 				level++;
 				Debug.Log ("level: " + level);
@@ -190,7 +191,8 @@ public class GameLogic : MonoBehaviour {
 		else if (_fuel > MAXFUEL)
 			_fuel = MAXFUEL;
 		fuel = _fuel;
-		fuelBar.setPercentage (fuel / MAXFUEL);
+		if (fuelBar)
+			fuelBar.setPercentage (fuel / MAXFUEL);
 	}
 	
 	public void restartGame(bool realRestart) {
@@ -199,15 +201,20 @@ public class GameLogic : MonoBehaviour {
 		level = 0;
 		setScore (0f);
 		setFuel (INITIALFUEL);
-		rigidBody.gravityScale = 0f;
-		rigidBody.velocity = Vector2.zero;
+		if (rigidBody) {
+			rigidBody.gravityScale = 0f;
+			rigidBody.velocity = Vector2.zero;
+		}
 		gameObject.layer = LayerMask.NameToLayer ("Body");
 		Camera.main.transform.position = new Vector3 (0f, 0f, Camera.main.transform.position.z);
 		transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0f);
 		globalGridY = 0;
-		fire.Stop ();
-		lastSmoke.Stop ();
-		thumb.button.SetActive (!realRestart);
+		if (fire)
+			fire.Stop ();
+		if (lastSmoke)
+			lastSmoke.Stop ();
+		if (thumb)
+			thumb.button.SetActive (!realRestart);
 		if (DEBUGSTEER)
 			return;
 		if (bg1)
@@ -215,13 +222,16 @@ public class GameLogic : MonoBehaviour {
 		if (bg2)
 			Destroy (bg2);
 		bg1 = generateBackgroundWithObstacles (realRestart);
-		bg1.transform.position = new Vector3(leftMargin, -Camera.main.orthographicSize/2f, BACKGROUNDLAYER);
+		bg1.transform.position = new Vector3(leftMargin, -Camera.main.orthographicSize, BACKGROUNDLAYER);
 		bg2 = generateBackgroundWithObstacles (realRestart);
 		bg2.transform.position = new Vector3(leftMargin, bg1.transform.position.y+bgSize, BACKGROUNDLAYER);
-		background.material.SetTextureOffset ("_MainTex", Vector2.zero);
+		if (background)
+			background.material.SetTextureOffset ("_MainTex", Vector2.zero);
 		if (realRestart) {
-			spider.ShowSpider ();
-			bird.Fly ();
+			if (spider)
+				spider.ShowSpider ();
+			if (bird)
+				bird.Fly ();
 		}
 	}
 
@@ -241,25 +251,29 @@ public class GameLogic : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Application.targetFrameRate = -1;
 		isGameOver = true;
 		scale = Screen.width / 320f;
 		thumbMargin = THUMBMARGIN * scale;
-		bgSize = SPOTGRIDSIZE * Camera.main.orthographicSize*2f * scale;
+		bgSize = SPOTGRIDSIZE.y * Camera.main.orthographicSize*2f;
 		midScreen = new Vector2 (Screen.width / 2, Screen.height / 2);
 		Camera.main.transform.position = new Vector3 (0f, 0f, Camera.main.transform.position.z);
 		leftMargin = Camera.main.ScreenToWorldPoint (Vector2.zero).x;
 		rightMargin = Camera.main.ScreenToWorldPoint (new Vector2(Screen.width, 0)).x;
-		RectTransform r = fuelBar.GetComponent<RectTransform> ();
-		r.sizeDelta = new Vector2(Screen.width, r.sizeDelta.y);
 		Debug.Log ("start "+scale + " " + bgSize+" "+Camera.main.aspect);
 		rigidBody = gameObject.GetComponent<Rigidbody2D> ();
-		GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-		Vector3 pos = spider.transform.localPosition;
-		pos.y = Camera.main.orthographicSize + spider.GetComponent<SpriteRenderer> ().bounds.size.y * 2f;
-		spider.transform.localPosition = pos;
-		bird.transform.localPosition = pos;
+		Renderer r = GetComponent<Renderer> ();
+		if (r)
+			r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+		if (spider) {
+			Vector3 pos = spider.transform.localPosition;
+			pos.y = Camera.main.orthographicSize + spider.GetComponent<SpriteRenderer> ().bounds.size.y * 2f;
+			spider.transform.localPosition = pos;
+			if (bird)
+				bird.transform.localPosition = pos;
+		}
 		GameObject.Find ("Background").transform.localScale = new Vector3(Camera.main.orthographicSize/4f * Camera.main.aspect, 1f, Camera.main.orthographicSize/4f);
-		restartGame (false);
+		restartGame (true);
 	}
 	
 	// Update is called once per frame
