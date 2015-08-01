@@ -2,13 +2,11 @@
 using System.Collections;
 
 public class BirdAnimator : MonoBehaviour {
-	public float framesPerSecond;
 	public bool reverse;
 	public float MINBIRDSPEED = 1f;
 	public float MAXBIRDSPEED = 3f;
 	public float BIRDREPEATTIME = 15f;
 
-	private Sprite[] sprites;
 	private SpriteRenderer spriteRenderer;
 	private bool flying = false;
 	private float speed;
@@ -19,7 +17,6 @@ public class BirdAnimator : MonoBehaviour {
 	void Start () {
 		GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
 		spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
-		sprites = Resources.LoadAll<Sprite>("Sprites/bird");
 		oldZ = transform.localPosition.z;
 	}
 
@@ -47,10 +44,6 @@ public class BirdAnimator : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		int index = (int)(Time.timeSinceLevelLoad * framesPerSecond);
-		index = index % sprites.Length;
-		spriteRenderer.sprite = sprites [index];
-
 		if (!flying) {
 			if ((_start_time > 0f) && (Time.time - _start_time >= BIRDREPEATTIME))
 				Fly ();

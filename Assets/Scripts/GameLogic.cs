@@ -32,7 +32,7 @@ public class GameLogic : MonoBehaviour {
 	private int[] obstacleDistance = new int[]{7, 7, 5, 4}; //multiplies of SPOTGRIDSIZE
 	private float[] damperAppearanceProbability = new float[]{0.0f, 0.3f, 0.75f, 0.75f};
 
-	public float BEEPROBABILITY = 0.3f;
+	public float BEEPROBABILITY = 1f;//1.3f;
 
 	public float ACCELERATION_UP = 30.0f;
 	public float ACCELERATION_DOWN = 7.000f;
@@ -56,6 +56,7 @@ public class GameLogic : MonoBehaviour {
 	bool accelerating;
 	float damperSize;
 	float score;
+	Sprite[] spots;
 	GameObject bg1;
 	GameObject bg2;
 	bool isGameOver;
@@ -82,18 +83,22 @@ public class GameLogic : MonoBehaviour {
 		return Random.value * (to - from) + from;
 	}
 
-	public GameObject AddSprite (string texName) {
-		Texture2D _texture = Resources.Load<Texture2D>(texName);
-		Sprite newSprite = Sprite.Create(_texture, new Rect(0f, 0f, _texture.width, _texture.height), new Vector2(0.5f, 0.5f), 128f);
+	public GameObject AddSprite (int spotIdx) {
 		GameObject sprGameObj = new GameObject();
-		sprGameObj.name = texName;
+		sprGameObj.name = spots[spotIdx].name;
 		sprGameObj.AddComponent<SpriteRenderer>();
 		SpriteRenderer sprRenderer = sprGameObj.GetComponent<SpriteRenderer>();
-		sprRenderer.sprite = newSprite;
+		sprRenderer.sprite = spots[spotIdx];
 		return sprGameObj;
 	}
 
 	public GameObject generateBackgroundWithObstacles(bool withObstacles) {
+		if (spots == null) {
+			spots = new Sprite[44];
+			Sprite[] tmp = Resources.LoadAll<Sprite> ("Sprites/spritesheet");
+			for (int i=0; i<44; i++)
+				spots[i] = tmp[i];
+		}
 		GameObject result = new GameObject();
 		float x, y = 0f, z,
 		screenWidth = rightMargin-leftMargin;
@@ -105,8 +110,7 @@ public class GameLogic : MonoBehaviour {
 			int iX = 0;
 			bool obstacleAdded = false;
 			while (x < screenWidth) {
-				string spotName = Mathf.RoundToInt(Random.value*44 + 1).ToString("D2")+"@2x";
-				GameObject spot = this.AddSprite("Sprites/spots/"+spotName);
+				GameObject spot = AddSprite(Mathf.RoundToInt(Random.value*(spots.Length-1)));
 
 				spot.transform.position = new Vector3(x, y, 0f);
 				spot.transform.localScale = new Vector3(3f, 3f, 3f);
