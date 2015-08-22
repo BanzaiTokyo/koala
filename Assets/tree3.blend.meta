@@ -1,19 +1,44 @@
 fileFormatVersion: 2
-guid: 2206e180867164122b1a3c72b0a78fb8
-timeCreated: 1433573421
+guid: 0b1ef1b19629a40948208e2dd920e223
+timeCreated: 1440246394
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Cube
+    100000: Cube_017
+    100002: Cube_018
+    100004: Cube_020
+    100006: Cube_021
+    100008: Cube_022
+    100010: //RootNode
+    400000: Cube_017
+    400002: Cube_018
+    400004: Cube_020
+    400006: Cube_021
+    400008: Cube_022
+    400010: //RootNode
+    2300000: Cube_017
+    2300002: Cube_018
+    2300004: Cube_020
+    2300006: Cube_021
+    2300008: Cube_022
+    2300010: //RootNode
+    3300000: Cube_017
+    3300002: Cube_018
+    3300004: Cube_020
+    3300006: Cube_021
+    3300008: Cube_022
+    3300010: //RootNode
+    4300000: Cube_016
+    4300002: Cube_017
+    4300004: Cube_018
+    4300006: Cube_020
+    4300008: Cube_021
+    4300010: Cube_022
     7400000: Default Take
     9500000: //RootNode
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:

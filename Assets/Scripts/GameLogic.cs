@@ -83,7 +83,8 @@ public class GameLogic : MonoBehaviour {
 		return Random.value * (to - from) + from;
 	}
 
-	public GameObject AddSprite (int spotIdx) {
+	public GameObject AddSpot () {
+		int spotIdx = Mathf.RoundToInt (Random.value * (spots.Length - 1));
 		GameObject sprGameObj = new GameObject();
 		sprGameObj.name = spots[spotIdx].name;
 		sprGameObj.AddComponent<SpriteRenderer>();
@@ -110,10 +111,10 @@ public class GameLogic : MonoBehaviour {
 			int iX = 0;
 			bool obstacleAdded = false;
 			while (x < screenWidth) {
-				GameObject spot = AddSprite(Mathf.RoundToInt(Random.value*(spots.Length-1)));
+				GameObject spot = AddSpot();
 
 				spot.transform.position = new Vector3(x, y, 0f);
-				spot.transform.localScale = new Vector3(3f, 3f, 3f);
+				spot.transform.localScale = new Vector3(2f, 2f, 1f);
 				SpriteRenderer r = spot.GetComponent<SpriteRenderer>();
 				Color c = r.color;
 				c.a = 0.4f;
@@ -461,7 +462,6 @@ public class GameLogic : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D other) {
-		Debug.Log (rigidBody.velocity.y + " " + shakeVelocity);
 		if ((other.gameObject.tag == "Tree") && (rigidBody.velocity.y < -shakeVelocity)) {
 			Debug.Log ("Shake!");
 			Camera.main.GetComponent<CameraScript>().Shake();
