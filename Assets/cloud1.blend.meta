@@ -19,10 +19,12 @@ ModelImporter:
     2300002: cloud02
     2300004: cloud03
     2300006: cloud04
+    2300008: //RootNode
     3300000: cloud01
     3300002: cloud02
     3300004: cloud03
     3300006: cloud04
+    3300008: //RootNode
     4300000: cloud01
     4300002: cloud02
     4300004: cloud03
@@ -38,6 +40,10 @@ ModelImporter:
     bakeSimulation: 0
     optimizeGameObjects: 0
     motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
     animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
