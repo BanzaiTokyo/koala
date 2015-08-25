@@ -418,7 +418,7 @@ public class GameLogic : MonoBehaviour {
 		if (DEBUGSTEER)
 			return;
 
-		float minBgY = Camera.main.transform.position.y - Camera.main.orthographicSize / 2f - bgSize;
+		float minBgY = Camera.main.transform.position.y - Camera.main.orthographicSize / 2f - bgSize*1.2f;
 		if (bg1.transform.position.y < minBgY) {
 			pos = bg1.transform.position;
 			pos.y = bg2.transform.position.y + bgSize;

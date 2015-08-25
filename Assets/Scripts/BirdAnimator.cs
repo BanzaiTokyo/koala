@@ -11,13 +11,17 @@ public class BirdAnimator : MonoBehaviour {
 	private bool flying = false;
 	private float speed;
 	private float _start_time = -1f;
-	private float oldZ;
+	private float initialY;
+	private float leftBound, rightBound;
 
 	// Use this for initialization
 	void Start () {
 		GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
 		spriteRenderer = GetComponent<Renderer>() as SpriteRenderer;
-		oldZ = transform.localPosition.z;
+		initialY = transform.localPosition.y;
+		float halfSize = spriteRenderer.bounds.size.x / 2f;
+		leftBound = (Camera.main.ScreenToWorldPoint (Vector3.zero)).x - halfSize;
+		rightBound = (Camera.main.ScreenToWorldPoint (new Vector3 (Screen.width, 0, 0))).x + halfSize;
 	}
 
 	public void Fly() {
@@ -25,16 +29,14 @@ public class BirdAnimator : MonoBehaviour {
 			Vector3 pos = transform.localPosition;
 			Vector3 scale = transform.localScale;
 			pos.y = Random.Range (-Camera.main.orthographicSize, 0f);
-			pos.z = oldZ;
 			speed = Random.Range (MINBIRDSPEED, MAXBIRDSPEED);
-			float halfSize = spriteRenderer.bounds.size.x / 2f;
 			if (reverse) {
-				pos.x = (Camera.main.ScreenToWorldPoint (new Vector3 (Screen.width, 0, 0))).x + halfSize;
+				pos.x = rightBound;
 				speed = -speed;
 				transform.localScale = new Vector3 (Mathf.Abs (scale.x), scale.y, scale.z);
 			} else {
 				transform.localScale = new Vector3 (-Mathf.Abs (scale.x), scale.y, scale.z);
-				pos.x = (Camera.main.ScreenToWorldPoint (Vector3.zero)).x - halfSize;
+				pos.x = leftBound;
 			}
 			transform.localPosition = pos;
 			flying = true;
@@ -44,20 +46,22 @@ public class BirdAnimator : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (_start_time < Mathf.Epsilon)
+			_start_time = Time.time;
 		if (!flying) {
 			if ((_start_time > 0f) && (Time.time - _start_time >= BIRDREPEATTIME))
 				Fly ();
-		}
-		else
+		} else {
 			transform.Translate (speed * Time.deltaTime, 0f, 0f);
+			if (reverse && transform.localPosition.x < leftBound ||
+			    !reverse && transform.localPosition.x > rightBound) {
+				flying = false;
+				_start_time = Time.time;
+				Vector3 pos = transform.localPosition;
+				pos.y = initialY;
+				transform.localPosition = pos;
+			}
+		}
 	}
 
-	void OnBecameInvisible() {
-		flying = false;
-		_start_time = Time.time;
-		Vector3 pos = transform.localPosition;
-		oldZ = pos.z;
-		pos.z = Camera.main.farClipPlane + 1f;
-		transform.localPosition = pos;
-	}
 }
