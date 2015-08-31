@@ -44,7 +44,7 @@ public class GameLogic : MonoBehaviour {
 	private float[] fuelInPowerup = new float[]{10f, 10f, 8f, 5f};
 	
 	private float THUMBMARGIN = 90f;
-	private float CONTROLLER_DEAD_ZONE = 0.1f;
+	private float CONTROLLER_DEAD_ZONE = 2f;
 	public float STEER_FORCE = 0.2f;
 	private float MAXBODYROLL = 150f;
 	private float MAXEARANGLE = 20f;
@@ -70,6 +70,7 @@ public class GameLogic : MonoBehaviour {
 	static bool oddRow;
 	Rigidbody2D rigidBody;
 	[HideInInspector] public float leftMargin, rightMargin;
+	float bodyWidth;
 
 	private bool isTouchDevice = false;
 	void Awake() {
@@ -265,11 +266,11 @@ public class GameLogic : MonoBehaviour {
 		Camera.main.transform.position = new Vector3 (0f, 0f, Camera.main.transform.position.z);
 		leftMargin = Camera.main.ScreenToWorldPoint (Vector2.zero).x;
 		rightMargin = Camera.main.ScreenToWorldPoint (new Vector2(Screen.width, 0)).x;
-		Debug.Log ("start "+scale + " " + bgSize+" "+Camera.main.aspect);
 		rigidBody = gameObject.GetComponent<Rigidbody2D> ();
 		Renderer r = GetComponent<Renderer> ();
-		if (r)
-			r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+		r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+		bodyWidth = GetComponent<SpriteRenderer> ().bounds.size.x/2f;
+		Debug.Log ("start "+scale + " " + bgSize+" "+Camera.main.aspect+" left:"+leftMargin+" right:"+rightMargin+" bodyw"+bodyWidth);
 		if (spider) {
 			Vector3 pos = spider.transform.localPosition;
 			pos.y = Camera.main.orthographicSize + spider.GetComponent<SpriteRenderer> ().bounds.size.y * 2f;
@@ -292,7 +293,7 @@ public class GameLogic : MonoBehaviour {
 		if (fuel <= 0f)
 			return;
 		//burst & smoke
-		lastSmoke.Clear ();
+		lastSmoke.Stop ();// Clear ();
 		lastSmoke.Play ();
 		fire.Clear ();
 		fire.Play ();
@@ -304,7 +305,6 @@ public class GameLogic : MonoBehaviour {
 			if (x < thumbMargin + 1f || x > Screen.width - thumbMargin - 1f)
 				return;
 			thumb.r.Translate(new Vector3(dx, 0, 0));
-			//Debug.Log (thumb.r.transform.position);
 		}
 	}
 	void touchesEnded() {
@@ -407,11 +407,11 @@ public class GameLogic : MonoBehaviour {
 		}
 
 		pos = gameObject.transform.position;
-		if (pos.x < leftMargin) {
-			pos.x += rightMargin*2.2f;
+		if (pos.x < leftMargin-bodyWidth) {
+			pos.x = rightMargin + bodyWidth;
 		}
-		else if (pos.x > rightMargin) {
-			pos.x -= rightMargin*2.2f;
+		else if (pos.x > rightMargin+bodyWidth) {
+			pos.x = leftMargin - bodyWidth;
 		}
 		gameObject.transform.position = pos;
 
