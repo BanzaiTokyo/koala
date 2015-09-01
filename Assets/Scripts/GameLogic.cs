@@ -18,7 +18,7 @@ public class GameLogic : MonoBehaviour {
 	public ThumbController thumb;
 	public GameObject leftEar;
 	public GameObject rightEar;
-	public ParticleSystem fire;
+	public ParticleSystem[] fire;
 	public ParticleSystem lastSmoke;
 	public MeshRenderer background;
 	public float shakeVelocity;
@@ -38,8 +38,8 @@ public class GameLogic : MonoBehaviour {
 	public float ACCELERATION_DOWN = 7.000f;
 	public float[] maxVelocity = new float[]{10f, 15f, 20f, 20f};
 	
-	private int INITIALFUEL = 20;
-	private int MAXFUEL = 20;
+	private int INITIALFUEL = 30;
+	private int MAXFUEL = 30;
 	public float[] fuelCPL = new float[]{1f, 1.5f, 2f, 3f}; //consumption per level
 	private float[] fuelInPowerup = new float[]{10f, 10f, 8f, 5f};
 	
@@ -181,7 +181,11 @@ public class GameLogic : MonoBehaviour {
 			if (scoreLabel)
 				scoreLabel.text = "Score: " + score;
 			if (level < NUMLEVELS - 1 && score > levelTargets [level]) {
+				bool fireWasAlive = fire[level].isPlaying;
+				fire[level].Stop();
 				level++;
+				if (fireWasAlive)
+					fire[level].Play();
 				Debug.Log ("level: " + level);
 			}
 		}
@@ -204,7 +208,6 @@ public class GameLogic : MonoBehaviour {
 	public void restartGame(bool realRestart) {
 		accelerating = false;
 		isGameOver = !realRestart;
-		level = 0;
 		setScore (0f);
 		setFuel (INITIALFUEL);
 		if (rigidBody) {
@@ -215,8 +218,8 @@ public class GameLogic : MonoBehaviour {
 		Camera.main.transform.position = new Vector3 (0f, 0f, Camera.main.transform.position.z);
 		transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0f);
 		globalGridY = 0;
-		if (fire)
-			fire.Stop ();
+		if (fire[level])
+			fire[level].Stop ();
 		if (lastSmoke)
 			lastSmoke.Stop ();
 		if (thumb)
@@ -227,6 +230,7 @@ public class GameLogic : MonoBehaviour {
 			Destroy (bg1);
 		if (bg2)
 			Destroy (bg2);
+		level = 0;
 		bg1 = generateBackgroundWithObstacles (realRestart);
 		bg1.transform.position = new Vector3(leftMargin, -Camera.main.orthographicSize, BACKGROUNDLAYER);
 		bg2 = generateBackgroundWithObstacles (realRestart);
@@ -246,7 +250,7 @@ public class GameLogic : MonoBehaviour {
 		rigidBody.gravityScale = 0f;
 		accelerating = false;
 		isGameOver = true;
-		fire.Stop ();
+		fire[level].Stop ();
 		thumb.button.SetActive (true);
 		thumb.button.GetComponentInChildren<Text>().text = "Again?";
 		/*[self runAction:[SKAction waitForDuration:1.0] completion:^(void) {
@@ -295,8 +299,8 @@ public class GameLogic : MonoBehaviour {
 		//burst & smoke
 		lastSmoke.Stop ();// Clear ();
 		lastSmoke.Play ();
-		fire.Clear ();
-		fire.Play ();
+		fire[level].Clear ();
+		fire[level].Play ();
 	}
 	void touchesMoved(Vector2 position) {
 		if (accelerating) {
@@ -309,7 +313,7 @@ public class GameLogic : MonoBehaviour {
 	}
 	void touchesEnded() {
 		accelerating = false;
-		fire.Stop ();
+		fire[level].Stop ();
 		//[_thumb runAction:putInCenter];
 	}
 	void Update () {
@@ -341,13 +345,19 @@ public class GameLogic : MonoBehaviour {
 		}
 
 		if (!DEBUGSTEER) {
-			if (rigidBody.gravityScale > 0f && fuel > 0f && accelerating) {
+
+			if (rigidBody.gravityScale > 0f && fuel > 0f) { // decrease fuel by time
+				setFuel (fuel - Time.deltaTime * fuelCPL[level]);
+			}
+			/*
+			if (rigidBody.gravityScale > 0f && fuel > 0f && accelerating) { //decrease fuel by speed
 				float df = 1f;
 				if (rigidBody.velocity.y > 0.2f * maxVelocity [level])
 					df = 1f - (rigidBody.velocity.y - 0.1f * maxVelocity [level]) / maxVelocity [level] * 0.5f;
 				df = df * fuelCPL [level];
 				setFuel (fuel - Time.deltaTime * df);
 			}
+			*/
 		}
 		float a;
 		if (accelerating && fuel > 0f) {
@@ -389,7 +399,7 @@ public class GameLogic : MonoBehaviour {
 		}
 		else if (accelerating) {
 			setFuel(0f);
-			fire.Stop();
+			fire[level].Stop();
 		}
 		
 		/*_fire.particlePosition = [self convertPoint:CGPointMake(0, -47) fromNode:_body];

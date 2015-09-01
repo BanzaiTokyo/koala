@@ -238,11 +238,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 135819181}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
-  m_LocalPosition: {x: 0, y: -.200000003, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1006795592}
-  m_RootOrder: 5
+  m_RootOrder: 3
 --- !u!199 &135819183
 ParticleSystemRenderer:
   m_ObjectHideFlags: 0
@@ -291,7 +291,7 @@ ParticleSystem:
   randomSeed: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   moveWithTransform: 0
   InitialModule:
     enabled: 1
@@ -1386,7 +1386,7 @@ ParticleSystem:
   randomSeed: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   moveWithTransform: 0
   InitialModule:
     enabled: 1
@@ -2429,7 +2429,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 233413310}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
-  m_LocalPosition: {x: 0, y: -.200000003, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1006795592}
@@ -3889,11 +3889,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 657061842}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
-  m_LocalPosition: {x: 0, y: -.200000003, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1006795592}
-  m_RootOrder: 3
+  m_RootOrder: 6
 --- !u!1 &754103126
 GameObject:
   m_ObjectHideFlags: 0
@@ -3920,7 +3920,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 754103126}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 71cad9513867a48c683bf41c5e6e675d, type: 2}
   m_CullingMode: 0
@@ -3954,7 +3954,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300138, guid: 47d726ae9a3a04b009a99c4add191388, type: 3}
+  m_Sprite: {fileID: 21300170, guid: 47d726ae9a3a04b009a99c4add191388, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &754103129
 Transform:
@@ -4233,7 +4233,11 @@ MonoBehaviour:
   thumb: {fileID: 564820991}
   leftEar: {fileID: 283993146}
   rightEar: {fileID: 915255591}
-  fire: {fileID: 233413311}
+  fire:
+  - {fileID: 233413311}
+  - {fileID: 135819184}
+  - {fileID: 1165392409}
+  - {fileID: 1765240063}
   lastSmoke: {fileID: 657061844}
   background: {fileID: 69530119}
   shakeVelocity: 9
@@ -4310,11 +4314,11 @@ Transform:
   - {fileID: 915255592}
   - {fileID: 283993147}
   - {fileID: 233413312}
-  - {fileID: 657061845}
-  - {fileID: 1681385205}
   - {fileID: 135819182}
   - {fileID: 1165392407}
   - {fileID: 1765240061}
+  - {fileID: 657061845}
+  - {fileID: 1681385205}
   m_Father: {fileID: 0}
   m_RootOrder: 1
 --- !u!50 &1006795593
@@ -4360,7 +4364,7 @@ Transform:
   m_GameObject: {fileID: 1055523881}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 7.6500001, z: 9.9989996}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1227850085}
   m_Father: {fileID: 1478667391}
@@ -4433,7 +4437,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300190, guid: 47d726ae9a3a04b009a99c4add191388, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8e8661a9170c14daabba0df632d6788b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &1115883392
 Prefab:
@@ -4554,11 +4558,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1165392406}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
-  m_LocalPosition: {x: 0, y: -.200000003, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1006795592}
-  m_RootOrder: 6
+  m_RootOrder: 4
 --- !u!199 &1165392408
 ParticleSystemRenderer:
   m_ObjectHideFlags: 0
@@ -4607,7 +4611,7 @@ ParticleSystem:
   randomSeed: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   moveWithTransform: 0
   InitialModule:
     enabled: 1
@@ -6375,7 +6379,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1006795592}
-  m_RootOrder: 4
+  m_RootOrder: 7
 --- !u!212 &1681385206
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6492,11 +6496,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1765240060}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
-  m_LocalPosition: {x: 0, y: -.200000003, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1006795592}
-  m_RootOrder: 7
+  m_RootOrder: 5
 --- !u!199 &1765240062
 ParticleSystemRenderer:
   m_ObjectHideFlags: 0
@@ -6545,7 +6549,7 @@ ParticleSystem:
   randomSeed: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   moveWithTransform: 0
   InitialModule:
     enabled: 1

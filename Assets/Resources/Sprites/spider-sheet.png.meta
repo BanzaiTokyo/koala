@@ -1,0 +1,319 @@
+fileFormatVersion: 2
+guid: 8e8661a9170c14daabba0df632d6788b
+timeCreated: 1441133400
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: spider-sheet_0
+    21300002: spider-sheet_1
+    21300004: spider-sheet_2
+    21300006: spider-sheet_3
+    21300008: spider-sheet_4
+    21300010: spider-sheet_5
+    21300012: spider-sheet_6
+    21300014: spider-sheet_7
+    21300016: spider-sheet_8
+    21300018: spider-sheet_9
+    21300020: spider-sheet_10
+    21300022: spider-sheet_11
+    21300024: spider-sheet_12
+    21300026: spider-sheet_13
+    21300028: spider-sheet_14
+    21300030: spider-sheet_15
+    21300032: spider-sheet_16
+    21300034: spider-sheet_17
+    21300036: spider-sheet_18
+    21300038: spider-sheet_19
+    21300040: spider-sheet_20
+    21300042: spider-sheet_21
+    21300044: spider-sheet_22
+    21300046: spider-sheet_23
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: spider-sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 874
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 874
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 874
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 874
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 724
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_5
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 724
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 724
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 724
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 574
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_9
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 574
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_10
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 574
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_11
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 574
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 424
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_13
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 424
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_14
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 424
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_15
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 424
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 274
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_17
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 274
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_18
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 274
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_19
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 274
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 124
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_21
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 124
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_22
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 124
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spider-sheet_23
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 124
+        width: 250
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
