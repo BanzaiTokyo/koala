@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using System.Collections.Generic;
 
 
 public class GameLogic : MonoBehaviour {
@@ -44,7 +44,7 @@ public class GameLogic : MonoBehaviour {
 	private float[] fuelInPowerup = new float[]{10f, 10f, 8f, 5f};
 	
 	private float THUMBMARGIN = 90f;
-	private float CONTROLLER_DEAD_ZONE = 2f;
+	private float CONTROLLER_DEAD_ZONE = 0.2f;
 	public float STEER_FORCE = 0.2f;
 	private float MAXBODYROLL = 150f;
 	private float MAXEARANGLE = 20f;
@@ -169,10 +169,20 @@ public class GameLogic : MonoBehaviour {
 		foreach (GameObject placeholder in obstacle.placeholders)
 			foreach (Transform child in placeholder.transform)
 				Destroy (child.gameObject);
-		int placeholderIdx = (int)(Random.value * obstacle.placeholders.Length);
-		GameObject fuel = Instantiate (powerup);
-		fuel.transform.parent = obstacle.placeholders[placeholderIdx].transform;
-		fuel.transform.localPosition = Vector3.zero;
+		List<int> placeholders = new List<int>(obstacle.placeholders.Length);
+
+		for (int i=0; i<obstacle.placeholders.Length; i++) {
+			placeholders.Add(i);
+		}
+		placeholders.Sort((a, b)=> 1 - 2 * Random.Range(0, 1));
+
+		int n = Mathf.Max (obstacle.placeholders.Length - level, 1);
+		for (int i=0; i<n; i++) {
+			int placeholderIdx = placeholders[i];
+			GameObject fuel = Instantiate (powerup);
+			fuel.transform.parent = obstacle.placeholders[placeholderIdx].transform;
+			fuel.transform.localPosition = Vector3.zero;
+		}
 	}
 
 	void setScore(float _score) {

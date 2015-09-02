@@ -4221,9 +4221,9 @@ MonoBehaviour:
   bee: {fileID: 11490374, guid: 55b09d18a9da741039073258efb816dc, type: 2}
   spider: {fileID: 1055523884}
   trees:
-  - {fileID: 133480, guid: 6cfcd0c5b2573470a8306c4ba28f9007, type: 2}
-  - {fileID: 126584, guid: 6450ca2ae2a3f46a1bfac4693b7cb08e, type: 2}
-  - {fileID: 178100, guid: ce5996909a31144a5a8e9e2cfe35a7b2, type: 2}
+  - {fileID: 178738, guid: 6cfcd0c5b2573470a8306c4ba28f9007, type: 2}
+  - {fileID: 185548, guid: 6450ca2ae2a3f46a1bfac4693b7cb08e, type: 2}
+  - {fileID: 103218, guid: ce5996909a31144a5a8e9e2cfe35a7b2, type: 2}
   clouds:
   - {fileID: 110524, guid: 6adabbbd5b0734e21ae78c9590513f65, type: 2}
   - {fileID: 171326, guid: b1fcc3a7b1d79430ba07a96be14e517a, type: 2}
@@ -4256,9 +4256,9 @@ MonoBehaviour:
   - 20
   fuelCPL:
   - 1
-  - 1.5
-  - 2
-  - 3
+  - 1
+  - 1
+  - 1
   STEER_FORCE: .200000003
   BACKGROUNDLAYER: .0900000036
   scale: 1
