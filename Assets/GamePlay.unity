@@ -4323,10 +4323,10 @@ MonoBehaviour:
   ACCELERATION_UP: 20
   ACCELERATION_DOWN: 7
   maxVelocity:
+  - 5
+  - 7
+  - 8
   - 10
-  - 15
-  - 20
-  - 20
   fuelCPL:
   - 1
   - 1
