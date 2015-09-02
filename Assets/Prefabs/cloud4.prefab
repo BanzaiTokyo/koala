@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1edde8ba24164498b88db90523f85a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viscosity: 180
+  viscosity: 30
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -135,7 +135,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: viscosity
-      value: 180
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
