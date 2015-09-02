@@ -6,12 +6,13 @@ public class SpiderAnimator : Actor {
 	public float MAXSPIDERTIME = 5f;
 	public float SPIDERREPEATTIME = 11f;
 
-	private float _start_time = -1f;
+	private float _start_time = 0f;
 	private Vector3 offScreenPos;
 
 	// Use this for initialization
 	void Start () {
 		GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+		_start_time = Mathf.Epsilon;
 	}
 	
 	// Update is called once per frame
@@ -38,7 +39,7 @@ public class SpiderAnimator : Actor {
 		offScreenPos = transform.localPosition;
 		offScreenPos.x = x;
 		transform.localPosition = offScreenPos;
-		_start_time = Time.time;
+		_start_time = Mathf.Max(Time.time, Mathf.Epsilon);
 	}
 
 }

@@ -30,7 +30,7 @@ public class GameLogic : MonoBehaviour {
 	[HideInInspector]
 	public Vector2 SPOTGRIDSIZE = new Vector2(2.10f, 2.1f);
 	private int[] obstacleDistance = new int[]{7, 7, 5, 4}; //multiplies of SPOTGRIDSIZE
-	private float[] damperAppearanceProbability = new float[]{0.0f, 0.3f, 0.75f, 0.75f};
+	private float[] cloudAppearanceProbability = new float[]{0.0f, 0.3f, 0.75f, 0.75f};
 
 	public float BEEPROBABILITY = 1f;//1.3f;
 
@@ -54,7 +54,7 @@ public class GameLogic : MonoBehaviour {
 	[HideInInspector] public float scale = 1f;
 	Vector2 midScreen;
 	bool accelerating;
-	float damperSize;
+	float cloudSize;
 	float score;
 	Sprite[] spots;
 	GameObject bg1;
@@ -124,9 +124,9 @@ public class GameLogic : MonoBehaviour {
 				if (withObstacles && (globalGridY % obstacleDistance[level] == 0) && !obstacleAdded && (iX == obstacleIdx)) {
 					obstacleAdded = true;
 					GameObject o;
-					bool isDamper = Random.value <= damperAppearanceProbability[level];
-					if (isDamper) {
-						o = this.generateDamper();
+					bool isCloud = Random.value <= cloudAppearanceProbability[level];
+					if (isCloud) {
+						o = this.generateCloud();
 					}
 					else {
 						o = this.generateTree();
@@ -159,10 +159,10 @@ public class GameLogic : MonoBehaviour {
 		return obstacle;
 	}
 
-	GameObject generateDamper() {
+	GameObject generateCloud() {
 		int cloudIdx = (int)Random.value*clouds.Length;
-		GameObject damper = Instantiate(clouds[cloudIdx]);
-		return damper;
+		GameObject cloud = Instantiate(clouds[cloudIdx]);
+		return cloud;
 	}
 
 	void generatePowerupAtPalm(Tree obstacle) {
@@ -457,16 +457,16 @@ public class GameLogic : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D other) {
-		if (other.transform.gameObject.layer == LayerMask.NameToLayer ("Damper")) {
+		if (other.transform.gameObject.layer == LayerMask.NameToLayer ("Cloud")) {
 			float /*l1 = (new Vector2(transform.position.x-other.transform.position.x, transform.position.y - other.transform.position.y)).magnitude,
 			l2 = other.bounds.size.magnitude/2f,*/
-			x = other.gameObject.GetComponent<Damper>().maxResistance;// * (1f - l1/l2);
+			x = other.gameObject.GetComponent<Cloud>().viscosity;// * (1f - l1/l2);
 			rigidBody.drag = x;
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D other) {
-		if (other.transform.gameObject.layer == LayerMask.NameToLayer ("Damper")) {
+		if (other.transform.gameObject.layer == LayerMask.NameToLayer ("Cloud")) {
 			rigidBody.drag = 0f;
 		}
 	}

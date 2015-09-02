@@ -10,7 +10,7 @@ public class BirdAnimator : MonoBehaviour {
 	private SpriteRenderer spriteRenderer;
 	private bool flying = false;
 	private float speed;
-	private float _start_time = -1f;
+	private float _start_time = 0f;
 	private float initialY;
 	private float leftBound, rightBound;
 
@@ -41,13 +41,11 @@ public class BirdAnimator : MonoBehaviour {
 			transform.localPosition = pos;
 			flying = true;
 		}
-		_start_time = Time.time;
+		_start_time = Mathf.Max(Time.time, Mathf.Epsilon);
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (_start_time < Mathf.Epsilon)
-			_start_time = Time.time;
 		if (!flying) {
 			if ((_start_time > 0f) && (Time.time - _start_time >= BIRDREPEATTIME))
 				Fly ();
@@ -56,7 +54,7 @@ public class BirdAnimator : MonoBehaviour {
 			if (reverse && transform.localPosition.x < leftBound ||
 			    !reverse && transform.localPosition.x > rightBound) {
 				flying = false;
-				_start_time = Time.time;
+				_start_time = Mathf.Max(Time.time, Mathf.Epsilon);
 				Vector3 pos = transform.localPosition;
 				pos.y = initialY;
 				transform.localPosition = pos;
