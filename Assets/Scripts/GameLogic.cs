@@ -41,7 +41,7 @@ public class GameLogic : MonoBehaviour {
 	private int INITIALFUEL = 30;
 	private int MAXFUEL = 30;
 	public float[] fuelCPL = new float[]{1f, 1.5f, 2f, 3f}; //consumption per level
-	private float[] fuelInPowerup = new float[]{10f, 10f, 8f, 5f};
+	public float[] fuelInPowerup = new float[]{10f, 10f, 10f, 10f};
 	
 	private float THUMBMARGIN = 90f;
 	private float CONTROLLER_DEAD_ZONE = 0.2f;
@@ -146,6 +146,8 @@ public class GameLogic : MonoBehaviour {
 
 	GameObject generateTree() { 
 		int treeIdx = (int)(Random.value*trees.Length);
+		if (treeIdx >= trees.Length)
+			return new GameObject();
 		GameObject obstacle = Instantiate(trees[treeIdx]);
 		this.generatePowerupAtPalm(obstacle.GetComponent<Tree>());
 
@@ -161,6 +163,8 @@ public class GameLogic : MonoBehaviour {
 
 	GameObject generateCloud() {
 		int cloudIdx = (int)Random.value*clouds.Length;
+		if (cloudIdx >= clouds.Length)
+			return new GameObject();
 		GameObject cloud = Instantiate(clouds[cloudIdx]);
 		return cloud;
 	}
@@ -177,6 +181,8 @@ public class GameLogic : MonoBehaviour {
 		placeholders.Sort((a, b)=> 1 - 2 * Random.Range(0, 1));
 
 		int n = Mathf.Max (obstacle.placeholders.Length - level, 1);
+		if (n >= placeholders.Count)
+			return;
 		for (int i=0; i<n; i++) {
 			int placeholderIdx = placeholders[i];
 			GameObject fuel = Instantiate (powerup);
@@ -194,8 +200,10 @@ public class GameLogic : MonoBehaviour {
 				bool fireWasAlive = fire[level].isPlaying;
 				fire[level].Stop();
 				level++;
-				if (fireWasAlive)
+				if (fireWasAlive) {
+					fire[level].startDelay = 0f;
 					fire[level].Play();
+				}
 				Debug.Log ("level: " + level);
 			}
 		}
@@ -323,6 +331,7 @@ public class GameLogic : MonoBehaviour {
 	}
 	void touchesEnded() {
 		accelerating = false;
+		fire [level].startDelay = 0.9f;
 		fire[level].Stop ();
 		//[_thumb runAction:putInCenter];
 	}
