@@ -204,7 +204,7 @@ public class GameLogic : MonoBehaviour {
 					fire[level].startDelay = 0f;
 					fire[level].Play();
 				}
-				Debug.Log ("level: " + level);
+				Debug.Log ("level: " + (level+1));
 			}
 		}
 	}

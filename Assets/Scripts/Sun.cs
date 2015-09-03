@@ -9,7 +9,6 @@ public class Sun : MonoBehaviour {
 	public Transform waypoints;
 	private int currentWaypointIdx;
 	private GameObject shineTo;
-	private Vector3 sunVelocity;
 	private float pathLength = 0f;
 	private float speed;
 	private float deltaIntensity;
@@ -32,22 +31,22 @@ public class Sun : MonoBehaviour {
 		deltaIntensity = (endIntensity - startIntensity) / dayLength;
 		shineTo = new GameObject ();
 		shineTo.transform.parent = waypoints.transform;
-		shineTo.transform.localPosition = waypoints.GetChild (0).localPosition;
+		shineTo.transform.position = waypoints.GetChild (0).position;
 	}
 
 	void Update() {
 		if (clockwise && currentWaypointIdx < waypoints.transform.childCount || !clockwise && currentWaypointIdx >= 0) {
-			Vector3 target = waypoints.transform.GetChild(currentWaypointIdx).localPosition;
-			shineTo.transform.forward = Vector3.RotateTowards(shineTo.transform.forward, target - shineTo.transform.localPosition, speed*Time.deltaTime, 0.0f);
-			shineTo.transform.localPosition = Vector3.MoveTowards(shineTo.transform.localPosition, target, speed*Time.deltaTime);
-			Vector3 step = target - shineTo.transform.localPosition;
+			float deltaSpeed = speed * Time.deltaTime;
+			Vector3 target = waypoints.transform.GetChild(currentWaypointIdx).position;
+			shineTo.transform.forward = Vector3.RotateTowards(shineTo.transform.forward, target - shineTo.transform.position, deltaSpeed, 0.0f);
+			shineTo.transform.position = Vector3.MoveTowards(shineTo.transform.position, target, deltaSpeed);
+			Vector3 step = target - shineTo.transform.position;
 
 			if (step.magnitude < Mathf.Epsilon) {
 				currentWaypointIdx += clockwise ? 1 : -1;
 			}
 			else {
-				passedPath += step.normalized.magnitude*speed * Time.deltaTime;
-				sunVelocity = step.normalized*speed * Time.deltaTime;
+				passedPath += step.normalized.magnitude * deltaSpeed;
 				transform.LookAt(shineTo.transform.position);
 				thisLight.intensity += deltaIntensity*Time.deltaTime*(clockwise ? 1f : -1f);
 			}
