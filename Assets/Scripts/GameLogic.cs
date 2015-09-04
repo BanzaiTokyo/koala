@@ -3,6 +3,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+public static class ExtendTouchStruct {
+	public static Vector2 FixedTouchDelta(this Touch aTouch)
+	{
+		float dt = Time.deltaTime / aTouch.deltaTime;
+		if (dt == 0 || float.IsNaN(dt) || float.IsInfinity(dt))
+			dt = 1.0f;
+		return aTouch.deltaPosition * dt;
+	}
+}
 
 public class GameLogic : MonoBehaviour {
 	private static readonly bool DEBUGSTEER = false;
@@ -73,16 +82,6 @@ public class GameLogic : MonoBehaviour {
 	float bodyWidth;
 
 	private bool isTouchDevice = false;
-	void Awake() {
-		if (Application.platform == RuntimePlatform.IPhonePlayer) 
-			isTouchDevice = true; 
-		else
-			isTouchDevice = false;
-	}
-
-	float randomFloat(float from, float to) {
-		return Random.value * (to - from) + from;
-	}
 
 	public GameObject AddSpot () {
 		int spotIdx = Mathf.RoundToInt (Random.value * (spots.Length - 1));
@@ -280,6 +279,8 @@ public class GameLogic : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Application.targetFrameRate = -1;
+		Input.multiTouchEnabled = false;
+		isTouchDevice = SystemInfo.deviceType == DeviceType.Handheld; 
 		isGameOver = true;
 		scale = Screen.width / 320f;
 		thumbMargin = THUMBMARGIN * scale;
@@ -322,7 +323,7 @@ public class GameLogic : MonoBehaviour {
 	}
 	void touchesMoved(Vector2 position) {
 		if (accelerating) {
-			float dx = Input.GetAxis ("Horizontal");
+			float dx = isTouchDevice ? Input.GetTouch(0).FixedTouchDelta().x : Input.GetAxis ("Horizontal");
 			float x = thumb.r.transform.position.x + dx;
 			if (x < thumbMargin + 1f || x > Screen.width - thumbMargin - 1f)
 				return;
