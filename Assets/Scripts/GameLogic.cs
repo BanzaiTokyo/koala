@@ -224,6 +224,7 @@ public class GameLogic : MonoBehaviour {
 	
 	public void restartGame(bool realRestart) {
 		accelerating = false;
+		Input.ResetInputAxes();
 		isGameOver = !realRestart;
 		setScore (0f);
 		setFuel (INITIALFUEL);
@@ -304,10 +305,16 @@ public class GameLogic : MonoBehaviour {
 		GameObject.Find ("Background").transform.localScale = new Vector3(Camera.main.orthographicSize/4f * Camera.main.aspect, 1f, Camera.main.orthographicSize/4f);
 		restartGame (true);
 	}
-	
-	// Update is called once per frame
+	public void btnPlayClick() {
+		StartCoroutine (restartWithDelay ());
+	}
+	System.Collections.IEnumerator restartWithDelay() {
+		yield return new WaitForFixedUpdate ();
+		restartGame (true);
+	}
 	void touchesBegan(Vector3 position) {
-
+		if (isGameOver)
+			return;
 		if (!DEBUGSTEER)
 			rigidBody.gravityScale = 1.0f;
 
