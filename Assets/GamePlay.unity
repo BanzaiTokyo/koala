@@ -4431,16 +4431,16 @@ MonoBehaviour:
   lastSmoke: {fileID: 657061844}
   background: {fileID: 69530119}
   shakeVelocity: 9
-  levelTargets: 0a0000000f0000001400000000000000
+  levelTargets: 960000002c010000c201000000000000
   SPOTGRIDSIZE: {x: 2.0999999, y: 2.0999999}
   BEEPROBABILITY: .300000012
   ACCELERATION_UP: 20
   ACCELERATION_DOWN: 7
   maxVelocity:
   - 5
-  - 7
-  - 8
   - 10
+  - 12
+  - 15
   fuelCPL:
   - 1
   - 1
