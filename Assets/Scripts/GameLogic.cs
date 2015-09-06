@@ -179,7 +179,7 @@ public class GameLogic : MonoBehaviour {
 		}
 		placeholders.Sort((a, b)=> 1 - 2 * Random.Range(0, 1));
 
-		int n = Mathf.Max (obstacle.placeholders.Length - level, 1);
+		int n = Mathf.Max (obstacle.placeholders.Length - level - 1, 1);
 		if (n >= placeholders.Count)
 			return;
 		for (int i=0; i<n; i++) {
