@@ -30,6 +30,7 @@ public class GameLogic : MonoBehaviour {
 	public ParticleSystem[] fire;
 	public ParticleSystem lastSmoke;
 	public MeshRenderer background;
+	public GameObject distanceText;
 	public float shakeVelocity;
 
 
@@ -260,6 +261,8 @@ public class GameLogic : MonoBehaviour {
 				spider.ShowSpider ();
 			if (bird)
 				bird.Fly ();
+			distanceText.transform.position = Vector3.zero;
+			distanceText.GetComponent<TextMesh>().text = "0";
 		}
 	}
 
@@ -470,6 +473,7 @@ public class GameLogic : MonoBehaviour {
 			bg2 = generateBackgroundWithObstacles(true);
 			bg2.transform.position = pos;
 		}
+
 		setScore (transform.position.y);
 	}
 
