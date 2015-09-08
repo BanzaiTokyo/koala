@@ -305,7 +305,7 @@ public class GameLogic : MonoBehaviour {
 			if (bird)
 				bird.transform.localPosition = pos;
 		}
-		GameObject.Find ("Background").transform.localScale = new Vector3(Camera.main.orthographicSize/4f * Camera.main.aspect, 1f, Camera.main.orthographicSize/4f);
+		background.transform.localScale = new Vector3(Camera.main.orthographicSize * Camera.main.aspect, Camera.main.orthographicSize, 1f);
 		restartGame (true);
 	}
 	public void btnPlayClick() {
