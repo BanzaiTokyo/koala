@@ -36,6 +36,9 @@ public class Sun : MonoBehaviour {
 
 	void Update() {
 		if (clockwise && currentWaypointIdx < waypoints.transform.childCount || !clockwise && currentWaypointIdx >= 0) {
+			speed = pathLength / dayLength;
+			thisLight = GetComponent<Light>();
+			deltaIntensity = (endIntensity - startIntensity) / dayLength;
 			float deltaSpeed = speed * Time.deltaTime;
 			Vector3 target = waypoints.transform.GetChild(currentWaypointIdx).position;
 			shineTo.transform.forward = Vector3.RotateTowards(shineTo.transform.forward, target - shineTo.transform.position, deltaSpeed, 0.0f);

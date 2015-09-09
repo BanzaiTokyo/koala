@@ -53,7 +53,6 @@ public class GameLogic : MonoBehaviour {
 	public float[] fuelCPL = new float[]{1f, 1.5f, 2f, 3f}; //consumption per level
 	public float[] fuelInPowerup = new float[]{10f, 10f, 10f, 10f};
 	
-	private float THUMBMARGIN = 90f;
 	private float CONTROLLER_DEAD_ZONE = 0.2f;
 	public float STEER_FORCE = 0.2f;
 	private float MAXBODYROLL = 150f;
@@ -241,8 +240,10 @@ public class GameLogic : MonoBehaviour {
 			fire[level].Stop ();
 		if (lastSmoke)
 			lastSmoke.Stop ();
-		if (thumb)
+		if (thumb) {
 			thumb.button.SetActive (!realRestart);
+			thumb.GetComponent<ThumbController>().setColorAlpha(realRestart?1:0);
+		}
 		if (DEBUGSTEER)
 			return;
 		if (bg1)
@@ -274,6 +275,7 @@ public class GameLogic : MonoBehaviour {
 		fire[level].Stop ();
 		thumb.button.SetActive (true);
 		thumb.button.GetComponentInChildren<Text>().text = "Again?";
+		thumb.setColorAlpha (0);
 		/*[self runAction:[SKAction waitForDuration:1.0] completion:^(void) {
 			[_viewController performSelector:@selector(gameOver)];
 		 }];*/
@@ -287,7 +289,7 @@ public class GameLogic : MonoBehaviour {
 		isTouchDevice = SystemInfo.deviceType == DeviceType.Handheld; 
 		isGameOver = true;
 		scale = Screen.width / 320f;
-		thumbMargin = THUMBMARGIN * scale;
+		thumbMargin = Screen.width / 2.5f;
 		bgSize = SPOTGRIDSIZE.y * Camera.main.orthographicSize*2f;
 		midScreen = new Vector2 (Screen.width / 2, Screen.height / 2);
 		Camera.main.transform.position = new Vector3 (0f, 0f, Camera.main.transform.position.z);
@@ -305,7 +307,7 @@ public class GameLogic : MonoBehaviour {
 			if (bird)
 				bird.transform.localPosition = pos;
 		}
-		background.transform.localScale = new Vector3(Camera.main.orthographicSize * Camera.main.aspect, Camera.main.orthographicSize, 1f);
+		background.transform.localScale = new Vector3(Camera.main.orthographicSize * Camera.main.aspect*2f, Camera.main.orthographicSize*2f, 1f);
 		restartGame (true);
 	}
 	public void btnPlayClick() {
