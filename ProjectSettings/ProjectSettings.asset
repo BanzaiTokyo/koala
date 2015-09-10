@@ -305,11 +305,11 @@ PlayerSettings:
   metroPackageLogo180: 
   metroPackageLogo240: 
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: Sergey Epifanov
+  metroCertificateIssuer: Sergey Epifanov
+  metroCertificateNotAfter: 0044c7ad120bd201
   metroApplicationDescription: Koala
   metroStoreTileLogo80: 
   metroStoreTileLogo: 
