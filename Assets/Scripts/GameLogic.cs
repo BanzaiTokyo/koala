@@ -168,24 +168,26 @@ public class GameLogic : MonoBehaviour {
 		return cloud;
 	}
 
+	void Shuffle(GameObject[] a) {
+		for (int i = a.Length-1; i > 0; i--) {
+			int rnd = Random.Range(0,i);
+			GameObject temp = a[i];
+			a[i] = a[rnd];
+			a[rnd] = temp;
+		}
+	}
+
 	void generatePowerupAtPalm(Tree obstacle) {
 		foreach (GameObject placeholder in obstacle.placeholders)
 			foreach (Transform child in placeholder.transform)
 				Destroy (child.gameObject);
-		List<int> placeholders = new List<int>(obstacle.placeholders.Length);
-
-		for (int i=0; i<obstacle.placeholders.Length; i++) {
-			placeholders.Add(i);
-		}
-		placeholders.Sort((a, b)=> 1 - 2 * Random.Range(0, 1));
-
+		Shuffle (obstacle.placeholders);
 		int n = Mathf.Max (obstacle.placeholders.Length - level - 1, 1);
-		if (n >= placeholders.Count)
+		if (n >= obstacle.placeholders.Length)
 			return;
 		for (int i=0; i<n; i++) {
-			int placeholderIdx = placeholders[i];
 			GameObject fuel = Instantiate (powerup);
-			fuel.transform.parent = obstacle.placeholders[placeholderIdx].transform;
+			fuel.transform.parent = obstacle.placeholders[i].transform;
 			fuel.transform.localPosition = Vector3.zero;
 		}
 	}

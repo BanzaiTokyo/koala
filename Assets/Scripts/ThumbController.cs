@@ -13,8 +13,27 @@ public class ThumbController : MonoBehaviour {
 	void Start () {
 		r = GetComponent<RectTransform>();
 		r.position = new Vector3 (Screen.width / 2f, r.position.y, r.position.z);
-		r.sizeDelta = new Vector2 (Screen.width / 4f, Screen.width / 4f * 0.73f);
+		float cm2i = 2.54f * 2f;
+		float width = 1.53f * Screen.dpi / cm2i;
+		r.sizeDelta = new Vector2 (width, width);
+		Vector2 barsSize = new Vector2 (2.3f * Screen.dpi / cm2i, r.sizeDelta.y * 0.8f);
+		float barsScale = barsSize.y / leftBars.FindChild ("big").GetComponent<RectTransform> ().sizeDelta.y;
+		foreach (Transform child in leftBars.transform)
+		{
+			RectTransform br = child.gameObject.GetComponent<RectTransform>();
+			br.localScale = new Vector3(barsScale, barsScale, barsScale);
+		}
+		foreach (Transform child in rightBars.transform)
+		{
+			RectTransform br = child.gameObject.GetComponent<RectTransform>();
+			br.localScale = new Vector3(barsScale, barsScale, barsScale);
+		}
+		leftBars.sizeDelta = barsSize;
+		rightBars.sizeDelta = barsSize;
+		leftBars.position = new Vector3 (r.position.x - barsSize.x - 20f, leftBars.position.y, 0f);
+		rightBars.position = new Vector3 (r.position.x + barsSize.x + 20f, rightBars.position.y, 0f);
 		button.SetActive (false);
+
 	}
 	
 	// Update is called once per frame
@@ -31,8 +50,8 @@ public class ThumbController : MonoBehaviour {
 				r.Translate(new Vector3(dx, 0, 0));
 			}
 		}
-		leftBars.sizeDelta = new Vector2 (r.position.x - size.x / 2 - leftBars.position.x - 20, leftBars.sizeDelta.y);
-		rightBars.sizeDelta = new Vector2 (Screen.width - leftBars.position.x - r.position.x - size.x / 2 - 20, rightBars.sizeDelta.y);
+		leftBars.sizeDelta = new Vector2 (r.position.x - size.x / 2f - leftBars.position.x - 20f, leftBars.sizeDelta.y);
+		rightBars.sizeDelta = new Vector2 (Screen.width - leftBars.position.x - r.position.x - size.x / 2f - 20f, rightBars.sizeDelta.y);
 	}
 
 	public void setColorAlpha(float a) {
