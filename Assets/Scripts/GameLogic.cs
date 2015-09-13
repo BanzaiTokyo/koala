@@ -117,7 +117,7 @@ public class GameLogic : MonoBehaviour {
 				spot.transform.localScale = new Vector3(2f, 2f, 1f);
 				SpriteRenderer r = spot.GetComponent<SpriteRenderer>();
 				Color c = r.color;
-				c.a = 0.4f;
+				c.a = 0.1f;
 				r.color = c;
 				spot.transform.parent = result.transform;
 				if (withObstacles && (globalGridY % obstacleDistance[level] == 0) && !obstacleAdded && (iX == obstacleIdx)) {
